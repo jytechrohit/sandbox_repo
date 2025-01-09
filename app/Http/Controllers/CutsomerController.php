@@ -23,7 +23,8 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         Customer::create($request->validated());
-        return redirect()->route('customers.index')->with('success', 'Customer created successfully');
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer created successfully.');
     }
 
     public function show(Customer $customer)
@@ -39,12 +40,14 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, Customer $customer)
     {
         $customer->update($request->validated());
-        return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer updated successfully.');
     }
 
     public function destroy(Customer $customer)
     {
         $customer->delete();
-        return redirect()->route('customers.index')->with('success', 'Customer deleted successfully');
+        return redirect()->route('customers.index')
+            ->with('success', 'Customer deleted successfully.');
     }
 }
