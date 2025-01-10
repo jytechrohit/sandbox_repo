@@ -6,13 +6,24 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Requests\CustomerRequest;
+use App\Repositories\CustomerRepository;
+use App\Http\Resources\customerResource;
 
 class CustomerController extends Controller
 {
-    public function index()
+
+    protected $customerRepo;
+
+    public function __construct(CustomerRepository $customerRepo)
     {
-        $customers = Customer::all();
-        return view('customers.index', compact('customers'));
+        $this->customerRepo = $customerRepo;
+    }
+
+    public function index(Request $request)
+    {
+        $limit = $request->get('limit', config('app.pagination_limit'));
+        $customers = $this->customerRepo->getCustomers($limit);
+        return view('customers.index', ['customers' => customerResource::collection($customers)]);
     }
 
     public function create()
